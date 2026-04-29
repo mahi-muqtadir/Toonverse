@@ -1,3 +1,4 @@
+//mahi
 #include <GL/glut.h>
 #include <math.h>
 void dda(float x1,float x2,float y1 ,float y2)
