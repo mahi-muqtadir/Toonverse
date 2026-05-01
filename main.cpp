@@ -16,7 +16,7 @@ void dda(float x1,float x2,float y1 ,float y2)
     {
         while (x <= x2 && y <= y2)
             {
-            glVertex2i(x, y);
+            glVertex2f(x, y);
             x = x + 1;
             y = y + m;
         }
@@ -25,7 +25,7 @@ void dda(float x1,float x2,float y1 ,float y2)
     {
         while (y <= y2)
             {
-            glVertex2i(x, y);
+            glVertex2f(x, y);
             y = y + 1;
             x = x + (1/m);
         }
@@ -44,17 +44,17 @@ float dOLD = 2*dy-dx; // dstart
 
     glPointSize(5);
     glBegin(GL_POINTS);
-    while (x <= x2 && y <= y2)
+    while (x <= x2)
     {
-        if (dOLD< 0)
+        if (dOLD< 0)//e
             {
-            glVertex2i(x, y);
+            glVertex2f(x, y);
             x = x +  1;
         dOLD= 2*dy + dOLD;
     }
-         else if (dOLD>0)
+         else //ne
             {
-            glVertex2i(x, y);
+            glVertex2f(x, y);
             y = y + 1;
             x = x + 1;
         dOLD= 2*(dy-dx) + dOLD;
@@ -132,6 +132,40 @@ glBegin(GL_POLYGON);
         glVertex2f(x4, y4);
  glEnd();
 
+}
+void midpointCircle(int xc,int yc,int r)
+{
+    int x = 0;
+    int y = r;
+    int d = 1 - r;
+
+    glBegin(GL_POINTS);
+    while(x <= y)
+    {
+        // 8-symmetry
+        glVertex2f(xc + x, yc + y);
+        glVertex2f(xc - x, yc + y);
+        glVertex2f(xc + x, yc - y);
+        glVertex2f(xc - x, yc - y);
+
+        glVertex2f(xc + y, yc + x);
+        glVertex2f(xc - y, yc + x);
+        glVertex2f(xc + y, yc - x);
+        glVertex2f(xc - y, yc - x);
+
+        if(d >= 0) //se
+        {
+            d = d + 2*x - 2*y + 5;
+            x++;
+            y--;
+        }
+        else //e
+        {
+            d = d + 2*x + 3;
+            x++;
+        }
+    }
+    glEnd();
 }
 void display() {
 
@@ -419,18 +453,63 @@ triangle(-44,-17.5,-46,-17.5,-44,-15);
 
 //hotwheels
 //body
-glColor3ub(0,0,0);
+glColor3ub(51,51,51);
 polygon(-80,-80,-70,-80,-70,-92.5,-80,-92.5);
 polygon(-42,-90,-42,-77.5,-32,-77.5,-32,-90);
+glColor3ub(0,0,0);
 polygon(-50, -70,-46, -70,-46, -75,-50, -75);
 polygon(-44, -70,-40, -70,-40, -77.5,-44, -77.5);
 polygon(-38, -70,-34, -70, -34, -77.5, -38, -77.5);
 
+glColor3ub(0,204,255);
+glBegin(GL_POLYGON);
+glVertex2f(-70,-95);
+glVertex2f(-46,-95);
+glVertex2f(-46,-92.5);
+glVertex2f(-44,-92.5);
+glVertex2f(-44,-90);
+glVertex2f(-42,-90);
+glVertex2f(-42,-87.5);
+glVertex2f(-40,-87.5);
+glVertex2f(-40,-77.5);
+glVertex2f(-46,-77.5);
+glVertex2f(-46,-75);
+glVertex2f(-52,-75);
+glVertex2f(-52,-70);
+glVertex2f(-58,-70);
+glVertex2f(-58,-67.5);
+glVertex2f(-62,-67.5);
+glVertex2f(-62,-65);
+glVertex2f(-66,-65);
+glVertex2f(-66,-62.5);
+glVertex2f(-70,-62.5);
+glEnd();
+glColor3ub(0,102,204);
+polygon(-84,-80,-70,-80,-70,-70,-84,-70);
+glColor3ub(51,102,255);
+polygon(-74,-62.5,-74,-80,-70,-80,-70,-62.5);
+polygon(-68,-75,-68, -70,-66,-70,-66,-75);
+polygon(-62,-77.5,-66,-77.5,-66,-72.5,-62, -72.5);
+polygon(-58,-80,-62,-80,-62,-75,-58,-75);
 
+
+glColor3ub(0,204,255);
+glBegin(GL_POLYGON);
+glVertex2f(-84,-72.5);
+glVertex2f(-76,-72.5);
+glVertex2f(-76,-67.5);
+glVertex2f(-78,-67.5);
+glVertex2f(-78,-65);
+glVertex2f(-80,-65);
+glVertex2f(-80,-62.5);
+glVertex2f(-84,-62.5);
+glEnd();
+polygon(-76,-75,-80,-75,-80,-72.5,-76,-72.5);
+polygon(-86,-70,-86,-65,-84,-65,-84,-70);
 //wheels
 //right
 glColor3ub(0,0,0);
-circle(-32,-87.5,7);
+circle(-32,-87.5,7.5);
 glColor3ub(255,255,255);
 circle(-32,-87.5,6);
 glColor3ub(0,0,0);
@@ -441,7 +520,7 @@ glColor3ub(0,0,0);
 circle(-32,-87.5,2);
 //left
 glColor3ub(0,0,0);
-circle(-80,-87.5,7);
+circle(-80,-87.5,7.7);
 glColor3ub(255,255,255);
 circle(-80,-87.5,6);
 glColor3ub(0,0,0);
@@ -450,6 +529,21 @@ glColor3ub(255,255,255);
 circle(-80,-87.5,4);
 glColor3ub(0,0,0);
 circle(-80,-87.5,2);
+
+glColor3ub(255,0,0);
+polygon(-64,-95,-64,-92.5,-62,-92.5,-62,-95);
+polygon(-58,-95,-58,-92.5,-56,-92.5,-56,-95);
+polygon(-52,-95,-52,-92.5,-50,-92.5,-50,-95);
+
+glColor3ub(255,255,0);
+polygon(-62,-92.5,-62,-90,-60,-90,-60,-92.5);
+polygon(-56,-92.5,-56,-90,-54,-90,-54,-92.5);
+polygon(-50,-92.5,-50,-90,-48,-90,-48,-92.5);
+
+glColor3ub(255,255,255);
+polygon(-60,-90,-60,-87.5,-58,-87.5,-58,-90);
+polygon(-54,-90,-54,-87.5,-52,-87.5,-52,-90);
+polygon(-48,-90,-48,-87.5,-46,-87.5,-46,-90);
     glFlush();
 }
 
