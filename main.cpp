@@ -1,7 +1,26 @@
-//mahi
+
 #include <GL/glut.h>
 #include <math.h>
 
+float spongebobtx=0.0f;
+float spongebobty=0.0f;
+float submarinetx =0.0f;
+ float submarinety=0.0f;
+ float bubbletx =0.0f;
+ float bubblety=0.0f;
+ float cartx=0.0f;
+ float carty=0.0f;
+  float loontx=0.0f;
+ float loonty=0.0f;
+ float loonsx = 1.0f;
+ float loonsy = 1.0f;
+  float cloudtx=0.0f;
+ float cloudty=0.0f;
+int playScene1 = 1;
+ int       playScene2 = 0;
+   int      playScene3 = 0;
+     int     playScene4 = 0;
+     int runSubmarine=0;
 void dda(float x1,float x2,float y1 ,float y2)
 {
     float dx = x2 - x1;
@@ -31,7 +50,7 @@ void dda(float x1,float x2,float y1 ,float y2)
         }
     }
     glEnd();
-    glFlush();
+
 }
 void midLine(float x1,float x2,float y1 ,float y2)
 {
@@ -61,7 +80,7 @@ float dOLD = 2*dy-dx; // dstart
     }
     }
     glEnd();
-    glFlush();
+
 }
 void circle( float centerX, float centerY,float radius)
 {
@@ -167,13 +186,56 @@ void midpointCircle(int xc,int yc,int r)
     }
     glEnd();
 }
-void background()
-{
+
+
+void scene1(){
+
+
     //sky
 
     glColor3ub(204,255,255);
     polygon(-100,100,100,100,100,0,-100,0);
 
+    glPushMatrix();
+    glTranslatef(cloudtx,cloudty,0);
+//cloud
+  glColor3ub(255,255,255);
+    circle(-60,87.5,4);
+    circle(-64,87.5,3);
+    circle(-56,87.5,3);
+
+     glColor3ub(255,255,255);
+    circle(-20,75,8);
+    circle(-28,75,5);
+    circle(-12,75,5);
+
+    glColor3ub(255,255,255);
+    circle(40,80,6);
+    circle(46,80,4);
+    circle(34,80,4);
+glPopMatrix();
+
+
+glPushMatrix();
+glTranslatef(loontx,loonty,0);
+glScalef(loonsx,loonsy,0);
+    //airloon
+    glColor3ub(255,0,0);
+    circle(10,87.5,10);
+    polygon(0,87.5,20,87.5,15,70,5,70);
+    glColor3ub(0,0,0);
+     glColor3ub(255,102,0);
+    circle(7,87.5,5);
+ glColor3ub(255,204,0);
+    circle(13,87.5,5);
+    glColor3ub(255,153,0);
+    circle(10,82.5,5);
+        glColor3ub(0,0,0);
+         polygon(15,70,5,70,5,67.5,15,67.5);
+    polygon(13,62.5,7,62.5,7,60,13,60);
+    line(13,62.5,13,67.5);
+     line(7,62.5,7,67.5);
+glPopMatrix();
     //mickey clubhouse
 
     glColor3f(0,0,0);
@@ -282,9 +344,10 @@ polygon(-96,2.5,-98,7.5,-92,7.5,-94,2.5);
 glColor3ub(128,0,0);
 polygon(-97,7.5,-97,10,-93,10,-93,7.5);
 triangle(-96,10,-95,12.5,-94,10);
-}
 
-void scene1(){
+
+
+
 //powerpuff house
 glColor3ub(192,192,192);
 polygon(-10,-50,-10,-25,0,-12.5,0,-50);
@@ -450,6 +513,9 @@ triangle(-44,-17.5,-46,-17.5,-44,-15);
     polygon(-20,-75,0,-75,0,-70,-20,-70);
     polygon(20,-75,40,-75,40,-70,20,-70);
     polygon(60,-75,80,-75,80,-70,60,-70);
+
+    glPushMatrix();
+glTranslatef(cartx,carty,0);
 //hotwheels
 //body
 glColor3ub(51,51,51);
@@ -505,6 +571,7 @@ glVertex2f(-84,-62.5);
 glEnd();
 polygon(-76,-75,-80,-75,-80,-72.5,-76,-72.5);
 polygon(-86,-70,-86,-65,-84,-65,-84,-70);
+
 //wheels
 //right
 glColor3ub(0,0,0);
@@ -543,9 +610,126 @@ glColor3ub(255,255,255);
 polygon(-60,-90,-60,-87.5,-58,-87.5,-58,-90);
 polygon(-54,-90,-54,-87.5,-52,-87.5,-52,-90);
 polygon(-48,-90,-48,-87.5,-46,-87.5,-46,-90);
+glPopMatrix();
 }
 scene2()
 {
+    //sky
+
+  glColor3ub(0,0,128);
+    polygon(-100,100,100,100,100,0,-100,0);
+
+    //mickey clubhouse
+
+    glColor3f(0,0,0);
+    circle(-50,50,9);
+    circle(-30,50,9);
+    circle(-40,32.5,13);
+
+    //joint
+    glColor3ub(0,0,0);
+    polygon(-24,2.5,-24,7.5,-12,7.5,-12,2.5);
+     //leg
+    glColor3ub(255,204,0);
+    mickeyLeg(-10,6.25,6.25);
+     mickeyLeg(-10,18.75,6.25);
+     //body
+       glColor3f(1,0,0);
+    semiCircle(-40,0,20);
+    //window
+      glColor3ub(51,204,204);
+    circle(-46,7.5,4);
+    circle(-34,7.5,4);
+
+    //doofenshmirtz
+
+    glColor3ub(102,0,102);
+    polygon(-90,62.5,-80,62.5,-80,60,-88,60);
+    polygon(-70,50,-60,50,-62,47.5,-70,47.5);
+
+    glColor3ub(102,102,153);
+    polygon( -90,20,-90,50,-70,50,-70,20);
+    polygon(-90,62.5,-90,75,-66,75,-70,62.5);
+    polygon(-80,62.5,-58,62.5,-60,50,-80,50);
+
+    glColor3ub(153,153,255);
+    semiCircle(-78,75,12);
+    glColor3ub(128,0,128);
+    semiCircle(-78,75,4);
+
+    //background grass
+   glColor3ub(46,139,87);
+    polygon(-100,0,100,0,100,-50,-100,-50);
+
+
+
+    //footpath
+ glColor3ub(0,0,0);
+    polygon(-100,-95,100,-95,100,-100,-100,-100);
+
+//far city
+glColor3ub(0,0,0);
+polygon(30, 20,30, 37.5,40, 37.5,40,20);
+polygon(40,20,40,50,50,50,50,20);
+polygon(50,20,50,30,60,30,60,20);
+polygon(60,20,60,62.5,70,62.5,70,20);
+polygon(70,20,70,37.5,80,37.5,80,20);
+polygon(80,20,80,50,90,50,90,20);
+polygon(90,20,90,62.5,100,62.5,100,20);
+
+//back trees
+glColor3ub(46,139,87);
+
+circle(-90,12.5,12.5);
+circle(-70,12.5,12.5);
+circle(10,12.5,12.5);
+circle(30,12.5,12.5);
+circle(50,12.5,12.5);
+circle(70,12.5,12.5);
+circle(90,12.5,12.5);
+
+glColor3ub(67,205,128);
+
+circle(-80,16,10);
+circle(20,16,10);
+circle(40,16,10);
+circle(60,16,10);
+circle(80,16,10);
+
+glColor3ub(78,238,148);
+
+circle(-100,9,10);
+circle(-90,9,10);
+circle(-80,9,10);
+circle(-70,9,10);
+circle(20,9,10);
+circle(30,9,10);
+circle(40,9,10);
+circle(50,9,10);
+circle(60,9,10);
+circle(70,9,10);
+circle(80,9,10);
+circle(90,9,10);
+
+//lines
+glColor3f(0,0,0);
+dda(-100,100,0,0);
+glColor3ub(0,0,0);
+polygon(-100,-52.5,-100,-50,100,-50,100,-52.5);
+
+//street lamp
+glColor3ub(128,0,0);
+polygon(-98,-50,-98,-45,-92,-45,-92,-50);
+polygon(-98,-45,-96,-42.5,-94,-42.5,-92,-45);
+polygon(-96,-42.5,-96,0,-94,0,-94,-42.5);
+polygon(-96,0,-98,2.5,-92,2.5,-94,0);
+glColor3ub(255,255,153);
+polygon(-96,2.5,-98,7.5,-92,7.5,-94,2.5);
+glColor3ub(128,0,0);
+polygon(-97,7.5,-97,10,-93,10,-93,7.5);
+triangle(-96,10,-95,12.5,-94,10);
+
+
     //squidward house
     glColor3ub(150,150,150);
     polygon(30,-50,30,-5,68,-5,68,-50);
@@ -584,6 +768,64 @@ scene2()
     glVertex2f(-100,-95);
 
 glEnd();
+//ferb
+
+//head
+glColor3ub(255,204,153);
+polygon(-78,-30,-70,-30,-70,-5,-78,-5);
+triangle(-80,-25,-78,-22.5,-78,-25);
+polygon(-78,-20,-82,-20,-82,-15,-78,-15);
+circle(-69,-13.75,1);
+glColor3ub(205,179,139);
+line(-82,-20,-76,-20);
+line(-76,-20,-75,-18.75);
+
+//eye
+glColor3ub(255,255,255);
+circle(-76,-12.5,2);
+glColor3ub(0,0,0);
+circle(-76,-12.5,.75);
+
+//hair
+glColor3ub(50,205,50);
+polygon(-68,-5,-82,-5,-78,-2.5,-70,-2.5);
+polygon(-70,-2.5,-68,0,-70,0,-74,-2.5);
+polygon(-74,-2.5,-78,0,-82,0,-78,-2.5);
+triangle(-78, -5, -80, -7.5,-76,-5);
+triangle(-76, -5,-74, -7.5,-72,-5);
+triangle(-72, -5,-72, -7.5,-70,-5);
+
+//shirt
+glColor3ub(228,232,170);
+polygon(-82,-35,-80,-30,-70,-30,-68,-35);
+triangle(-76, -35,-75, -37.5,-74,-35);
+glColor3ub(255,255,255);
+polygon(-80,-30,-78,-32.5,-75,-31.25,-75,-30);
+polygon(-75,-31.25,-75,-30,-70,-30,-72,-32.5);
+glColor3ub(228,232,170);
+triangle(-82,-35,-80,-30,-80,-35);
+triangle(-70,-35,-68,-35, -70,-30);
+
+//pants
+glColor3ub(125,38,205);
+polygon(-75, -37.5 ,-76, -35,-80,-35,-80,-37.5);
+polygon(-74,-35,-70,-35,-70,-37.5,-75,-37.5);
+polygon(-80,-37.5,-70,-37.5,-70,-45,-80,-45);
+polygon(-78,-45,-76,-45,-76,-50,-78,-50);
+polygon(-72,-45,-70,-45,-70,-50,-72,-50);
+
+//shoe
+glColor3ub(0,0,0);
+polygon(-80,-47.5,-76,-47.5,-76,-50,-80,-50);
+polygon(-74,-47.5,-70,-47.5,-70,-50,-74,-50);
+
+//hand
+glColor3ub(255,204,153);
+triangle(-82,-35,-80,-35,-80,-40);
+triangle(-70,-35,-68,-35, -70,-40);
+
+glPushMatrix();
+glTranslatef(submarinetx,submarinety, 0.0f);
     //submarine
      glColor3ub(255,153,0);
 polygon(60,-65,70,-65,70,-70,60,-75);
@@ -622,6 +864,7 @@ circle(44,-82.5,1);
 circle(48,-82.5,1);
 circle(52,-82.5,1);
 circle(56,-82.5,1);
+glPopMatrix();
 
 //patrick house
 glColor3ub(139,0,0);
@@ -682,6 +925,110 @@ polygon(-52, -45,-52, -50,-50, -50,-50, -45);
 glColor3ub(0,154,205);
 polygon(-60, -47.5,-60, -50,-56, -50,-56,-47.5);
 polygon(-54,-47.5,-54,-50,-50,-50,-50,-47.5);
+
+
+glPushMatrix();
+glTranslatef(spongebobtx, spongebobty, 0.0f);
+//spongebob
+
+//head
+glColor3ub(255,204,0);
+polygon(10,87.5,50,87.5,50,50,10,50);
+
+//eye
+glColor3ub(255,225,255);
+circle(24,75,5);
+glColor3ub(135,206,250);
+circle(24,75,3);
+glColor3ub(0,0,0);
+circle(24,75,1);
+
+glColor3ub(255,225,255);
+circle(36,75,5);
+glColor3ub(135,206,250);
+circle(36,75,3);
+glColor3ub(0,0,0);
+circle(36,75,1);
+
+//blush
+glColor3ub(255,69,0);
+semiCircle(20,67.5,2);
+semiCircle(40,67.5,2);
+
+glColor3ub(0,0,0);
+//smile
+line(40, 67.5,36, 62.5);
+line(20, 67.5, 24, 62.5);
+
+//nose
+line(28, 66.25, 28, 70);
+line(32, 70, 28, 70);
+line(32, 66.25, 32, 70);
+
+//teeth
+glColor3ub(255,255,255);
+polygon(24,62.5,28,62.5,28,57.5,24,57.5);
+polygon(32,62.5,36,62.5,36,57.5,32,57.5);
+glColor3b(0,0,0);
+line(24,62.5,36,62.5);
+
+//Body
+glColor3ub(255,255,255);
+polygon(10,50,50,50,50,42.5,10,42.5);
+glColor3ub(0,0,0);
+midLine(10,50,42.5,42.5);
+midLine(10,50,50,50);
+//pant
+glColor3ub(139,69,19);
+polygon(10,42.5,50,42.5,50,37.5,10,37.5);
+
+//tie
+glColor3ub(255,255,255);
+triangle(20,50,24,46.125 ,28,50);
+triangle(32,50,36,46.125,40,50);
+glColor3ub(255,0,0);
+polygon(28,50,32,50,32,47.5,28,47.5);
+polygon(28,47.5,32,47.5,33,42.5,27,42.5);
+triangle(27,42.5,33,42.5,30,37.5);
+glColor3ub(0,0,0);
+line(20, 50,24, 46.125);
+line(24, 46.125,28, 50);
+line(32, 50,36, 46.125);
+line(36, 46.125,40, 50);
+line(28,47.5,32,47.5);
+
+glPopMatrix();
+
+//bubbles
+glPushMatrix();
+glTranslatef(bubbletx,bubblety,0.0f);
+glColor3ub(191,239,255);
+
+circle(-90,-130,2);
+circle(-70,-150,2);
+circle(-70,50,2);
+circle(100,-120,2);
+circle(50,-10,2);
+circle(30,60,2);
+circle(-10,-10,2);
+circle(-30,30,2);
+circle(0,50,2);
+circle(-30,-160,2);
+circle(-90,0,2);
+circle(-60,10,2);
+circle(20,-50,2);
+circle(70,0,2);
+circle(80,75,2);
+circle(-50,60,2);
+circle(80,-70,2);
+circle(0,-90,2);
+circle(-90,-50,2);
+circle(-70,-70,2);
+circle(-90,90,2);
+circle(-30,90,2);
+circle(70,-130,2);
+circle(50,-150,2);
+glPopMatrix();
 }
 void display() {
 
@@ -691,12 +1038,108 @@ void display() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    background();
+if(playScene1==1)
+{
     scene1();
-//scene2();
+}
+else if(playScene2==1)
+{
+    scene2();
+}
     glFlush();
 }
+void update(int value) {
 
+if(playScene1==1)
+{
+    cartx +=1.0f;
+     cloudtx +=.1f;
+     loontx+=.1f;
+     loonsx -= 0.001f;
+     loonsy -= 0.001f;
+        if(cartx>200.0f){
+            cartx= -130.0f;
+
+        }
+        if(cloudtx>50.0f){
+            cloudtx= 0.0f;
+
+        }
+        if(loontx>60)
+        {
+
+            loontx=0.0f;
+             loonsx = 1.0f;
+     loonsy = 1.0f;
+        }
+}
+    if(playScene2== 1 && runSubmarine==1){
+        submarinetx -=1.0f;
+    bubblety +=.1f;
+
+        if(submarinetx<-180.0f){
+            submarinetx = 80.0f;
+
+        }
+
+        if(bubblety>100.0f){
+            bubblety = -50.0f;
+
+        }
+    }
+
+    glutPostRedisplay();
+    glutTimerFunc(16, update, 0);
+}
+void keyboard(unsigned char key, int x, int y) {
+    switch(key) {
+    case '1':
+        playScene1 = 1;
+        playScene2 = 0;
+         playScene3 = 0;
+          playScene4 = 0;
+        break;
+    case '2':
+         playScene1 = 0;
+        playScene2 = 1;
+         playScene3 = 0;
+          playScene4 = 0;
+          runSubmarine=1;
+        break;
+
+    case '3':
+         playScene1 = 0;
+        playScene2 = 0;
+         playScene3 = 1;
+          playScene4 = 0;
+        break;
+
+    case '4':
+        playScene1 = 0;
+        playScene2 = 0;
+         playScene3 = 0;
+          playScene4 = 1;
+        break;
+        case 'w': if(playScene2==1) {
+            if(spongebobty<15) {spongebobty += 7.5f;}
+            }
+            break;
+        case 's': if(playScene2==1){
+              if(spongebobty>-135) {spongebobty -= 7.5f;}
+            }
+            break;
+        case 'a': if(playScene2==1){
+        if(spongebobtx>-112.5) {spongebobtx -= 7.5f;}
+            }
+            break;
+        case 'd': if(playScene2==1){
+            if(spongebobtx<52.5) {spongebobtx += 7.5f;}
+            }
+            break;
+
+    }
+    glutPostRedisplay();
+}
 void init() {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glMatrixMode(GL_PROJECTION);
@@ -713,13 +1156,14 @@ int main(int argc, char** argv) {
     glutInitWindowSize(1000, 800);
     glutInitWindowPosition(250,0);
 
-    glutCreateWindow("Mahi Muqtadir");
+    glutCreateWindow("Toonverse");
 
 
     init();
 
     glutDisplayFunc(display);
-
+    glutKeyboardFunc(keyboard);
+    glutTimerFunc(16, update, 0);
     glutMainLoop();
     return 0;
 }
