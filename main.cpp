@@ -1,4 +1,5 @@
-
+#include <iostream>
+using namespace std;
 #include <GL/glut.h>
 #include <math.h>
 
@@ -16,11 +17,17 @@ float submarinetx =0.0f;
  float loonsy = 1.0f;
   float cloudtx=0.0f;
  float cloudty=0.0f;
-int playScene1 = 1;
+ float jumptx=0.0f;
+ float jumpty=0.0f;
+ bool jumpflag=false;
+ float jump=0.0f;
+int playScene1 =1;
  int       playScene2 = 0;
    int      playScene3 = 0;
      int     playScene4 = 0;
      int runSubmarine=0;
+
+
 void dda(float x1,float x2,float y1 ,float y2)
 {
     float dx = x2 - x1;
@@ -186,6 +193,54 @@ void midpointCircle(int xc,int yc,int r)
     }
     glEnd();
 }
+void brick3D()
+{
+    glBegin(GL_QUADS);
+
+    //front
+    glColor3ub(205,129,98);
+    glVertex3f(-20, -50, 0);
+    glVertex3f(-30, -50, 0);
+    glVertex3f(-30, -45, 0);
+    glVertex3f(-20, -45, 0);
+
+    //back
+ glColor3ub(139,87,66);
+    glVertex3f(-20, -50, -5);
+    glVertex3f(-30, -50, -5);
+    glVertex3f(-30, -45, -5);
+    glVertex3f(-20, -45, -5);
+
+    //left
+
+    glVertex3f(-30, -50, 0);
+    glVertex3f(-30, -50, -5);
+    glVertex3f(-30, -45, -5);
+    glVertex3f(-30, -45, 0);
+
+    //right
+
+    glVertex3f(-20, -50, 0);
+    glVertex3f(-20, -50, -5);
+    glVertex3f(-20, -45, -5);
+    glVertex3f(-20, -45, 0);
+
+    //up
+ glColor3ub(238,149,114);
+    glVertex3f(-20, -45, 0);
+    glVertex3f(-30, -45, 0);
+    glVertex3f(-30, -45, -5);
+    glVertex3f(-20, -45, -5);
+
+    //down
+ glColor3ub(139,87,66);
+    glVertex3f(-20, -50, 0);
+    glVertex3f(-30, -50, 0);
+    glVertex3f(-30, -50, -5);
+    glVertex3f(-20, -50, -5);
+
+    glEnd();
+}
 
 
 void scene1(){
@@ -198,6 +253,7 @@ void scene1(){
 
     glPushMatrix();
     glTranslatef(cloudtx,cloudty,0);
+
 //cloud
   glColor3ub(255,255,255);
     circle(-60,87.5,4);
@@ -219,6 +275,7 @@ glPopMatrix();
 glPushMatrix();
 glTranslatef(loontx,loonty,0);
 glScalef(loonsx,loonsy,0);
+
     //airloon
     glColor3ub(255,0,0);
     circle(10,87.5,10);
@@ -330,6 +387,7 @@ circle(90,9,10);
 //lines
 glColor3f(0,0,0);
 dda(-100,100,0,0);
+
 glColor3ub(0,0,0);
 polygon(-100,-52.5,-100,-50,100,-50,100,-52.5);
 
@@ -396,7 +454,8 @@ line(74,-30,94,-30);
 line(74,-40,94,-40);
 
 
-
+glPushMatrix();
+glTranslatef(jumptx,jumpty,0.0f);
 //phineas
 
 //body
@@ -409,6 +468,9 @@ polygon(-74,-35,-76,-37.5,-66,-37.5,-66,-35);
 //neck
 glColor3ub(255,153,0);
 circle(-70,-25,2);
+
+
+
 //head
 glColor3ub(255,204,153);
 triangle(-80,-20,-70,-12.5,-70,-25);
@@ -424,11 +486,14 @@ glVertex2f(-66,-10);
 glVertex2f(-68,-12.5);
 glEnd();
 triangle(-68,-12.5,-70,-12.5,-68,-15);
+
 //eyes
 glColor3ub(255,255,255);
 circle(-74,-15,2);
 glColor3ub(0,0,0);
 circle(-74,-15,1);
+
+
 //hand
 glColor3ub(255,204,153);
 triangle(-66,-30,-64,-30,-66,-35);
@@ -502,6 +567,7 @@ line(-46, -12.5,-45, -12.5);
 //tongue
 glColor3ub(255,0,0);
 triangle(-44,-17.5,-46,-17.5,-44,-15);
+glPopMatrix();
   //road
     glColor3ub(150,150,150);
     polygon(-100,-50,100,-50,100,-95,-100,-95);
@@ -611,7 +677,30 @@ polygon(-60,-90,-60,-87.5,-58,-87.5,-58,-90);
 polygon(-54,-90,-54,-87.5,-52,-87.5,-52,-90);
 polygon(-48,-90,-48,-87.5,-46,-87.5,-46,-90);
 glPopMatrix();
+//3D
+glMatrixMode(GL_PROJECTION);
+glPushMatrix();
+glLoadIdentity();
+glOrtho(-100, 100, -100, 100, -100, 100);
+
+glMatrixMode(GL_MODELVIEW);
+glPushMatrix();
+glLoadIdentity();
+
+glTranslatef(5, -4, 0);
+glRotatef(50, .5, .5, 0);
+
+brick3D();
+
+glPopMatrix();
+glMatrixMode(GL_PROJECTION);
+glPopMatrix();
+glMatrixMode(GL_MODELVIEW);
+
+glColor3ub(0,0,0);
+dda(-100,100,-50,-50);
 }
+
 scene2()
 {
     //sky
@@ -825,7 +914,7 @@ triangle(-82,-35,-80,-35,-80,-40);
 triangle(-70,-35,-68,-35, -70,-40);
 
 glPushMatrix();
-glTranslatef(submarinetx,submarinety, 0.0f);
+glTranslatef(submarinetx,submarinety-2.5, 0.0f);
     //submarine
      glColor3ub(255,153,0);
 polygon(60,-65,70,-65,70,-70,60,-75);
@@ -1030,9 +1119,19 @@ circle(70,-130,2);
 circle(50,-150,2);
 glPopMatrix();
 }
+
+scene3()
+{
+
+
+}
+scene4()
+{
+
+}
 void display() {
 
-
+     glClearColor(0.4f,0.8f,1.0f,1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);
@@ -1046,6 +1145,10 @@ else if(playScene2==1)
 {
     scene2();
 }
+else if(playScene3==1)
+{
+    scene3();
+}
     glFlush();
 }
 void update(int value) {
@@ -1057,6 +1160,7 @@ if(playScene1==1)
      loontx+=.1f;
      loonsx -= 0.001f;
      loonsy -= 0.001f;
+
         if(cartx>200.0f){
             cartx= -130.0f;
 
@@ -1072,6 +1176,17 @@ if(playScene1==1)
              loonsx = 1.0f;
      loonsy = 1.0f;
         }
+         if (jumpflag) {
+        jump -= 0.1f;
+        jumpty += jump;
+
+
+        if (jumpty <= 0.0f) {
+            jumpty= 0.0f;
+            jump = 0.0f;
+            jumpflag = false;
+        }
+    }
 }
     if(playScene2== 1 && runSubmarine==1){
         submarinetx -=1.0f;
@@ -1087,7 +1202,17 @@ if(playScene1==1)
 
         }
     }
+if(playScene3==1)
+{
 
+
+}
+
+if(playScene4==1)
+{
+
+
+}
     glutPostRedisplay();
     glutTimerFunc(16, update, 0);
 }
@@ -1136,6 +1261,14 @@ void keyboard(unsigned char key, int x, int y) {
             if(spongebobtx<52.5) {spongebobtx += 7.5f;}
             }
             break;
+            case ' ':
+                if (!jumpflag) {
+            jumpflag = true;
+            jump= 1 ;
+        };
+         break;
+         case 'x':  exit(0);
+         break;
 
     }
     glutPostRedisplay();
@@ -1151,9 +1284,10 @@ void init() {
 int main(int argc, char** argv) {
 
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+    glEnable(GL_DEPTH_TEST);
 
-    glutInitWindowSize(1000, 800);
+    glutInitWindowSize(1000, 768);
     glutInitWindowPosition(250,0);
 
     glutCreateWindow("Toonverse");
@@ -1164,6 +1298,20 @@ int main(int argc, char** argv) {
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
     glutTimerFunc(16, update, 0);
+    cout<<"Press '1' for scene 1."<<endl;
+    cout<<"Press SPACE to Jump!!."<<endl;
+    cout<<endl;
+      cout<<"Press '2' for scene 2."<<endl;
+       cout<<"To move SpongeBob:"<<endl;
+      cout<<"-Press 'w' for UP."<<endl;
+      cout<<"-Press 'a' for LEFT."<<endl;
+      cout<<"-Press 'd' for RIGHT."<<endl;
+      cout<<"-Press 's' for DOWN."<<endl;
+         cout<<endl;
+        cout<<"Press '3' for scene 3."<<endl;
+           cout<<endl;
+           cout<<"Press '4' for scene 4.";
     glutMainLoop();
+
     return 0;
 }
