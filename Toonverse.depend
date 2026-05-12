@@ -1,8 +1,10 @@
 # depslib dependency file v1.0
-1778096057 source:c:\users\mahim\desktop\files\cse\computer graphics\codes\toonverse\main.cpp
+1778254119 source:c:\users\mahim\desktop\files\cse\computer graphics\codes\toonverse\main.cpp
 	<iostream>
 	<GL/glut.h>
 	<math.h>
+	<windows.h>
+	<mmsystem.h>
 
 1771406598 c:\program files\codeblocks\mingw\x86_64-w64-mingw32\include\gl\glut.h
 	"freeglut_std.h"
