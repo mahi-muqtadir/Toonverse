@@ -263,27 +263,73 @@ void scene1(){
 
     //sky
 
-    glColor3ub(204,255,255);
-    polygon(-100,100,100,100,100,0,-100,0);
+
+    glBegin(GL_POLYGON);
+
+glColor3f(0.96f, 0.82f, 0.48f);
+    glVertex2f(-100,100);
+    glColor3f(0.55f, 0.28f, 0.15f);
+      glVertex2f(100,100);
+      glColor3f(0.78f, 0.48f, 0.18f);
+        glVertex2f(100,0);
+        glColor3f(0.92f, 0.68f, 0.28f);
+          glVertex2f(-100,0);
+    glEnd();
 
     glPushMatrix();
     glTranslatef(cloudtx,cloudty,0);
 
 //cloud
-  glColor3ub(255,255,255);
+//out
+    glColor3f(0.78f, 0.72f, 0.65f);
     circle(-60,87.5,4);
     circle(-64,87.5,3);
     circle(-56,87.5,3);
 
-     glColor3ub(255,255,255);
     circle(-20,75,8);
     circle(-28,75,5);
     circle(-12,75,5);
 
-    glColor3ub(255,255,255);
     circle(40,80,6);
     circle(46,80,4);
     circle(34,80,4);
+
+    //mid
+    glColor3f(0.88f, 0.84f, 0.78f);
+        circle(-63,89.5,2);
+    circle(-57,89.5,2);
+      circle(-60,89.5,3);
+
+ circle(-27,77,4);
+    circle(-13,77,4);
+      circle(-20,77,5);
+
+     circle(45,82,3);
+    circle(35,82,3);
+     circle(40,82,4);
+     //up
+     glColor3f(0.88f, 0.84f, 0.78f);
+        circle(-61,92.5,2);
+    circle(-59,92.5,2);
+      circle(-60,92.5,3);
+
+ circle(-25,80,4);
+    circle(-15,80,4);
+      circle(-20,80,5);
+
+     circle(43,85,3);
+    circle(37,85,3);
+     circle(40,85,4);
+//inner
+ glColor3f(0.96f, 0.93f, 0.88f);
+ circle(41,85,2);
+ circle(39,85,2);
+
+   circle(-22,80,3);
+ circle(-18,80,3);
+
+         circle(-60.5,92.5,1);
+           circle(-59.5,92.5,1);
 glPopMatrix();
 
 
@@ -357,7 +403,7 @@ glPopMatrix();
     polygon(-100,-95,100,-95,100,-100,-100,-100);
 
 //far city
-glColor3ub(153,204,255);
+glColor3ub(169,169,169);
 polygon(30, 20,30, 37.5,40, 37.5,40,20);
 polygon(40,20,40,50,50,50,50,20);
 polygon(50,20,50,30,60,30,60,20);
