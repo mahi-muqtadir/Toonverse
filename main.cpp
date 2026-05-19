@@ -321,9 +321,14 @@ void simpsonsCar()
      polygon(28, -87.5, 34, -87.5, 34, -82.5, 28, -82.5);
      if(playScene1==1)
      {
-     glColor3ub(237, 230, 133);//light
-     polygon(-20, -90, 10, -90, 28, -82.5, 30, -75);
-     triangle(28, -82.5, 30, -82.5, 30, -75);
+     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glColor4ub(237, 230, 133, 80);   // 80 out of 255 = ~30% opacity, very transparent
+    polygon(-20, -90, 10, -90, 28, -82.5, 30, -75);
+    triangle(28, -82.5, 30, -82.5, 30, -75);
+
+    glDisable(GL_BLEND);
      }
      //left tire
      //shade
@@ -356,6 +361,35 @@ void scene1()
     //moon
     glColor3ub(255, 255, 255);
     circle(75, 81.25, 7);
+//stars
+glColor3ub(255, 255, 255);
+glPointSize(2.0f);
+glBegin(GL_POINTS);
+float starX[] = {-90,-75,-60,-45,-30,-15, 0, 15, 30, 45, 60, 80,
+                 -85,-55,-35,-10, 10, 35, 55, 70,-70,-40, 20, 50, 90,
+                 -95,-50,-20,  5, 25, 65, 85,-65,-25, 40, 75};
+float starY[] = { 95, 90, 95, 88, 93, 85, 90, 87, 94, 89, 92, 96,
+                  82, 84, 80, 83, 86, 78, 81, 88, 76, 79, 77, 85, 91,
+                  74, 72, 75, 70, 73, 71, 78, 68, 66, 69, 64};
+int starCount = 36;
+for(int i = 0; i < starCount; i++) {
+    glVertex2f(starX[i], starY[i]);
+}
+glEnd();
+glPointSize(1.0f);
+
+// --- TWINKLING STARS (slightly bigger, animated) ---
+glColor3ub(255, 255, 200);
+float twinkle = (sin(waveOffset * 2.0f) + 1.0f) / 2.0f; // 0.0 to 1.0
+glPointSize(1.0f + twinkle * 2.5f);                       // size 1 to 3.5
+glBegin(GL_POINTS);
+float tStarX[] = {-80, -20, 20, 55, -45, 10, 70, -60, 40, -5};
+float tStarY[] = { 88,  92, 80, 86,  94, 75, 82,  70, 91, 84};
+for(int i = 0; i < 10; i++) {
+    glVertex2f(tStarX[i], tStarY[i]);
+}
+glEnd();
+glPointSize(1.0f);
 
      //cloud
      glPushMatrix();
@@ -566,6 +600,34 @@ glPointSize(1.0f);
     circle(-12, -22.5, 1.75);
     glPopMatrix();
 
+//vector house
+    //boundary
+    glColor3ub(205, 201, 201);
+    polygon(-72, 0, -8, 0, -8, 5, -72, 5);
+    //triangle
+    glColor3ub(16, 78, 139);
+    triangle(-68, 5, -12, 5, -40, 50);
+    //house circle
+    glColor3ub(205, 201, 201);
+    semiCircle(-45, 22.5, 13);
+    polygon(-58, 22.5, -58, 12.5, -32, 12.5, -32, 22.5);
+    //house wall
+    glColor3ub(139, 136, 120);
+    polygon(-54, 5, -36, 5, -36, 12.5, -54, 12.5);
+    //gate
+    glColor3ub(205, 201, 201);
+    semiCircle(-45, 5, 5);
+    glColor3ub(205, 102, 29);
+    polygon(-52, 0, -50, 0, -50, 10, -52, 10);
+     polygon(-38, 0, -40, 0, -40, 10, -38, 10);
+     //lower v
+     polygon(-42, 7.5, -44, 7.5, -45, 2.5, -44, 0);
+     polygon(-46, 7.5, -48, 7.5, -46, 0, -45, 2.5);
+     triangle(-44, 0, -46, 0, -45, 2.5);
+     //upper v
+     polygon(-40, 40, -42, 40, -45, 32.5, -44, 30);
+     polygon(-48, 40, -50, 40, -46, 30, -45, 32.5);
+     triangle(-44, 30, -46, 30, -45, 32.5);
 
 
     //angry bird
@@ -611,8 +673,6 @@ glPointSize(1.0f);
      polygon(17, 77.5, 16, 82.5, 21, 80, 20, 77.5);
      triangle(22, 80, 24, 82.5, 22, 75);
      glPopMatrix();
-
-
 
 
     //up house
@@ -846,15 +906,11 @@ glPointSize(1.0f);
     polygon(40, -46, 60, -46, 60, -47, 40, -47);
     polygon(40, -48, 60, -48, 60, -49, 40, -49);
 
-
-
     //chimney
     glColor3ub(205, 91, 69);
     polygon(54, 25, 60, 25, 60, 32.5, 54, 32.5);
     glColor3ub(139, 62, 47);
     polygon(53, 32.5, 61, 32.5, 61, 33.75, 53, 33.75);
-
-
 
 
     //street lamp
@@ -871,39 +927,6 @@ glPointSize(1.0f);
     glColor3ub(128,0,0);
     polygon(-97,7.5,-97,10,-93,10,-93,7.5);
     triangle(-96,10,-95,12.5,-94,10);
-
-
-
-
-    //vector house
-    //boundary
-    glColor3ub(205, 201, 201);
-    polygon(-72, 0, -8, 0, -8, 5, -72, 5);
-    //triangle
-    glColor3ub(16, 78, 139);
-    triangle(-68, 5, -12, 5, -40, 50);
-    //house circle
-    glColor3ub(205, 201, 201);
-    semiCircle(-45, 22.5, 13);
-    polygon(-58, 22.5, -58, 12.5, -32, 12.5, -32, 22.5);
-    //house wall
-    glColor3ub(139, 136, 120);
-    polygon(-54, 5, -36, 5, -36, 12.5, -54, 12.5);
-    //gate
-    glColor3ub(205, 201, 201);
-    semiCircle(-45, 5, 5);
-    glColor3ub(205, 102, 29);
-    polygon(-52, 0, -50, 0, -50, 10, -52, 10);
-     polygon(-38, 0, -40, 0, -40, 10, -38, 10);
-     //lower v
-     polygon(-42, 7.5, -44, 7.5, -45, 2.5, -44, 0);
-     polygon(-46, 7.5, -48, 7.5, -46, 0, -45, 2.5);
-     triangle(-44, 0, -46, 0, -45, 2.5);
-     //upper v
-     polygon(-40, 40, -42, 40, -45, 32.5, -44, 30);
-     polygon(-48, 40, -50, 40, -46, 30, -45, 32.5);
-     triangle(-44, 30, -46, 30, -45, 32.5);
-
 
 
      //minion
@@ -3066,6 +3089,8 @@ void init() {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+    glEnable(GL_BLEND);
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     gluOrtho2D(-100, 100, -100, 100);
 
 }
