@@ -31,7 +31,7 @@ int playScene1 =1;
      int     playScene4 = 0;
      int runSubmarine=0;
 
-
+float waveOffset = 0.0f;
 
 GLfloat scartx = 0.0f;
 GLfloat scarty = 0.0f;
@@ -456,7 +456,68 @@ void scene1()
     glVertex2f(100, 0);
     glVertex2f(-100, 0);
     glEnd();
+//waves
 
+// --- NIGHT WAVES ---
+
+// Filled wave band — near surface
+glColor3ub(0, 0, 100);
+glBegin(GL_TRIANGLE_STRIP);
+for(float x = -100; x <= 100; x += 0.5f) {
+    float y = -10.0f + sin((x + waveOffset) * 0.4f) * 2.0f
+                     + sin((x + waveOffset * 1.3f) * 0.7f) * 0.8f;
+    glVertex2f(x, y);
+    glVertex2f(x, y - 4.0f);
+}
+glEnd();
+
+// Layered wave lines — spread across river depth
+float nightWaveY[3]    = {-10.0f,  -25.0f,  -40.0f};  // top, mid, bottom
+float nightWaveAmp[3]  = { 1.5f,    2.0f,    1.2f};
+float nightWaveFreq[3] = { 0.3f,    0.45f,   0.6f};
+float nightWaveSpeed[3]= { 1.0f,    1.5f,    0.8f};    // different speeds per layer
+GLubyte nightWaveCol[3][3] = {
+    {20,  20,  160},
+    {0,   0,   139},
+    {10,  10,  110}
+};
+
+for(int w = 0; w < 3; w++) {
+    glColor3ub(nightWaveCol[w][0], nightWaveCol[w][1], nightWaveCol[w][2]);
+    glBegin(GL_LINE_STRIP);
+    for(float x = -100; x <= 100; x += 0.5f) {
+        float y = nightWaveY[w]
+                + sin((x * nightWaveFreq[w]) + (waveOffset * nightWaveSpeed[w])) * nightWaveAmp[w]
+                + sin((x * nightWaveFreq[w] * 1.7f) + (waveOffset * nightWaveSpeed[w] * 0.6f)) * 0.7f;
+        glVertex2f(x, y);
+    }
+    glEnd();
+}
+
+// Boat-reactive wake — mid-lower river, spreads downward
+glColor3ub(60, 60, 150);
+for(int i = 1; i <= 4; i++) {
+    glBegin(GL_LINE_STRIP);
+    for(float x = -100; x <= 100; x += 0.5f) {
+        float dist = x - (boatx - 10.0f);
+        float amp  = (4.0f - i * 0.5f) / (1.0f + 0.006f * dist * dist);
+        float y    = -30.0f - (i * 4.0f)          // i*4 spreads each wake line 4 units apart
+                   + sin(dist * 0.45f + waveOffset * 2.0f) * amp;
+        glVertex2f(x, y);
+    }
+    glEnd();
+}
+
+// Moonlight shimmer
+glColor3ub(180, 180, 255);
+glPointSize(1.5f);
+glBegin(GL_POINTS);
+for(float x = -100; x <= 100; x += 5.0f) {
+    float y = -10.0f + sin((x + waveOffset) * 0.4f) * 2.0f;
+    glVertex2f(x, y + 1.0f);
+}
+glEnd();
+glPointSize(1.0f);
     //sky line
     glColor3ub(0, 0, 0);
     line(-100, 0, 100, 0);
@@ -1105,6 +1166,67 @@ void scene2()
     glVertex2f(100, 0);
     glVertex2f(-100, 0);
     glEnd();
+//wave
+// --- DAY WAVES ---
+
+// Filled wave band — near surface
+glColor3ub(0, 160, 210);
+glBegin(GL_TRIANGLE_STRIP);
+for(float x = -100; x <= 100; x += 0.5f) {
+    float y = -10.0f + sin((x + waveOffset) * 0.4f) * 2.0f
+                     + sin((x + waveOffset * 1.3f) * 0.7f) * 0.8f;
+    glVertex2f(x, y);
+    glVertex2f(x, y - 4.0f);
+}
+glEnd();
+
+// Layered wave lines — spread across river depth
+float dayWaveY[3]    = {-10.0f,  -25.0f,  -40.0f};   // top, mid, bottom
+float dayWaveAmp[3]  = { 1.5f,    2.0f,    1.2f};
+float dayWaveFreq[3] = { 0.3f,    0.45f,   0.6f};
+float dayWaveSpeed[3]= { 1.0f,    1.5f,    0.8f};     // different speeds per layer
+GLubyte dayWaveCol[3][3] = {
+    {0,  191, 255},
+    {30, 144, 255},
+    {0,  105, 180}
+};
+
+for(int w = 0; w < 3; w++) {
+    glColor3ub(dayWaveCol[w][0], dayWaveCol[w][1], dayWaveCol[w][2]);
+    glBegin(GL_LINE_STRIP);
+    for(float x = -100; x <= 100; x += 0.5f) {
+        float y = dayWaveY[w]
+                + sin((x * dayWaveFreq[w]) + (waveOffset * dayWaveSpeed[w])) * dayWaveAmp[w]
+                + sin((x * dayWaveFreq[w] * 1.7f) + (waveOffset * dayWaveSpeed[w] * 0.6f)) * 0.7f;
+        glVertex2f(x, y);
+    }
+    glEnd();
+}
+
+// Boat-reactive wake — mid-lower river, spreads downward
+glColor3ub(180, 230, 255);
+for(int i = 1; i <= 4; i++) {
+    glBegin(GL_LINE_STRIP);
+    for(float x = -100; x <= 100; x += 0.5f) {
+        float dist = x - (boatx - 10.0f);
+        float amp  = (4.0f - i * 0.5f) / (1.0f + 0.006f * dist * dist);
+        float y    = -30.0f - (i * 4.0f)          // i*4 spreads each wake line 4 units apart
+                   + sin(dist * 0.45f + waveOffset * 2.0f) * amp;
+        glVertex2f(x, y);
+    }
+    glEnd();
+}
+
+// Sunlight glint
+glColor3ub(255, 255, 255);
+glPointSize(2.0f);
+glBegin(GL_POINTS);
+for(float x = -100; x <= 100; x += 5.0f) {
+    float y = -10.0f + sin((x + waveOffset) * 0.4f) * 2.0f;
+    glVertex2f(x, y + 1.0f);
+}
+glEnd();
+glPointSize(1.0f);
 
     //sky line
     glColor3ub(0, 0, 0);
@@ -2699,7 +2821,7 @@ else if(playScene4==1)
 }
 void update(int value) {
 //scene 1 and 2sa
-
+waveOffset += 0.05f;
     //car right to left
     scartx = scartx-1.0f;
 
